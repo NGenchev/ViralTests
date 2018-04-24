@@ -1,0 +1,17 @@
+ErrorDocument 404 /public/templates/error.tpl.php
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+RewriteCond %{HTTP:Accept-Language} ^en [NC]
+RewriteRule ^$ https://viraltest.eu/en/ [L,R=301]
+
+RewriteCond %{HTTP:Accept-Language} ^bg [NC]
+RewriteRule ^$ https://viraltest.eu/bg/ [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(en|bg)/?$ index.php?lang=$1 [QSA,NC,L]

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Image Upload</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="custom.css">
+</head>
+<body>
+ 
+    <canvas id="myCanvas" width="800" height="420" style="display:none;"></canvas>
+    <script>
+        function toDataURL(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+    var reader = new FileReader();
+    reader.onloadend = function() {
+      callback(reader.result);
+    }
+    reader.readAsDataURL(xhr.response);
+  };
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.send();
+}
+function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+ 
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+ 
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+       ia[i] = byteString.charCodeAt(i);
+   }
+ 
+   return new Blob([ia], {type:mimeString});
+}
+ 
+ 
+
+ 
+toDataURL('https://graph.facebook.com/963682577119637/picture?width=300&height=420', function(dataUrl) {
+  console.log(dataUrl);
+
+   //640x670
+   document.write('<img src="' + dataUrl + '" width="800" height="420"/>');
+
+})
+    </script>
+</body>
+</html>
